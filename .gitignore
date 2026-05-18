@@ -1,0 +1,67 @@
+# === Unity generated folders (NO subir al repo) ===
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+[Uu]serSettings/
+
+# Asset meta files solo se ignoran si el asset también se ignora
+!/[Aa]ssets/**/*.meta
+
+# === IDE files ===
+.vs/
+.vscode/
+.idea/
+/[Aa]ssets/Plugins/Editor/JetBrains*
+
+# Solution y project files autogenerados
+ExportedObj/
+.consulo/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# === Unity build outputs ===
+*.apk
+*.aab
+*.unitypackage
+*.app
+
+# Crashlytics
+crashlytics-build.properties
+
+# Packed Addressables
+/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
+
+# Streaming Assets autogenerados
+/[Aa]ssets/[Ss]treamingAssets/aa.meta
+/[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# === Logs y metadata varia ===
+sysinfo.txt
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+
+# === OS specific ===
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# === WebGL builds (descomentar si no quieres subirlos) ===
+/[Bb]uild_WebGL/
+/[Ww]eb[Bb]uild/

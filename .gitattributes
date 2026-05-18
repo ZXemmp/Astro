@@ -1,0 +1,51 @@
+# Unity-specific
+*.cs diff=csharp text
+*.cginc text
+*.shader text
+
+# Unity YAML
+*.mat merge=unityyamlmerge eol=lf
+*.anim merge=unityyamlmerge eol=lf
+*.unity merge=unityyamlmerge eol=lf
+*.prefab merge=unityyamlmerge eol=lf
+*.physicsMaterial2D merge=unityyamlmerge eol=lf
+*.physicsMaterial merge=unityyamlmerge eol=lf
+*.asset merge=unityyamlmerge eol=lf
+*.meta merge=unityyamlmerge eol=lf
+*.controller merge=unityyamlmerge eol=lf
+
+# Image binaries
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.gif binary
+*.psd binary
+*.tga binary
+*.tif binary
+*.tiff binary
+*.exr binary
+*.hdr binary
+
+# Audio binaries
+*.mp3 binary
+*.wav binary
+*.ogg binary
+
+# 3D binaries
+*.fbx binary
+*.obj binary
+*.blend binary
+
+# Video binaries
+*.mp4 binary
+*.mov binary
+
+# Compressed
+*.zip binary
+*.rar binary
+*.7z binary
+
+# Unity binaries
+*.unitypackage binary
+*.dll binary
+*.exe binary
