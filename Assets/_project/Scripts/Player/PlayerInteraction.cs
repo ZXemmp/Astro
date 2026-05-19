@@ -41,6 +41,16 @@ public class PlayerInteraction : MonoBehaviour
     private void Update()
     {
         DetectInteractable();
+
+        // Botón de interactuar en móvil
+        if (MobileControls.Instance != null && MobileControls.Instance.IsMobileMode)
+        {
+            if (MobileControls.Instance.InteractPressedThisFrame)
+            {
+                if (currentTarget != null && currentTarget.CanInteract())
+                    currentTarget.Interact(this.gameObject);
+            }
+        }
     }
 
     private void DetectInteractable()

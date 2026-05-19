@@ -37,7 +37,10 @@ public class ThirdPersonCameraRig : MonoBehaviour
         inputActions.Player.Enable();
         inputActions.Player.Look.performed += OnLook;
         inputActions.Player.Look.canceled  += OnLook;
-        if (lockCursor)
+
+        // En móvil NO bloqueamos el cursor (no aplica)
+        bool isMobile = MobileControls.Instance != null && MobileControls.Instance.IsMobileMode;
+        if (lockCursor && !isMobile)
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
@@ -58,8 +61,17 @@ public class ThirdPersonCameraRig : MonoBehaviour
 
     private void LateUpdate()
     {
-        yaw   += lookInput.x * mouseSensitivity;
-        pitch -= lookInput.y * mouseSensitivity;
+        // Si estamos en móvil y hay input de arrastre, usarlo (sobrescribe mouse)
+        Vector2 effectiveLook = lookInput;
+        if (MobileControls.Instance != null && MobileControls.Instance.IsMobileMode)
+        {
+            Vector2 mobileLook = MobileControls.Instance.LookInput;
+            if (mobileLook.sqrMagnitude > 0.01f)
+                effectiveLook = mobileLook;
+        }
+
+        yaw   += effectiveLook.x * mouseSensitivity;
+        pitch -= effectiveLook.y * mouseSensitivity;
         pitch  = Mathf.Clamp(pitch, minPitch, maxPitch);
         transform.rotation = Quaternion.Euler(pitch, yaw, 0f);
     }

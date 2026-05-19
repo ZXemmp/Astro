@@ -3,8 +3,9 @@ using UnityEngine.InputSystem;
 
 /// <summary>
 /// Controla el movimiento del astronauta en tercera persona.
-/// Usa CharacterController (componente de Unity) para colisiones limpias.
+/// Usa CharacterController para colisiones limpias.
 /// Soporta caminar, correr, saltar y gravedad.
+/// Lee input tanto de teclado/gamepad como de MobileControls (joystick virtual).
 /// </summary>
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
@@ -43,7 +44,6 @@ public class PlayerController : MonoBehaviour
         controller = GetComponent<CharacterController>();
         inputActions = new PlayerInputActions();
 
-        // Si nadie asignó la cámara en el Inspector, intenta buscarla sola.
         if (cameraTransform == null && Camera.main != null)
             cameraTransform = Camera.main.transform;
     }
@@ -72,6 +72,19 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        // === Sumar input móvil si existe ===
+        if (MobileControls.Instance != null && MobileControls.Instance.IsMobileMode)
+        {
+            // Si el joystick virtual está dando input, usarlo
+            Vector2 mobileMove = MobileControls.Instance.MoveInput;
+            if (mobileMove.sqrMagnitude > 0.01f)
+                moveInput = mobileMove;
+
+            // Si se pulsó el botón de salto en móvil
+            if (MobileControls.Instance.JumpPressedThisFrame)
+                jumpPressed = true;
+        }
+
         CheckGround();
         HandleMovement();
         HandleJumpAndGravity();
@@ -85,8 +98,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleMovement()
     {
-        // La dirección de movimiento es relativa a la cámara.
-        // Esto hace que "W" siempre signifique "hacia donde mira la cámara".
+        // Dirección relativa a la cámara
         Vector3 camForward = cameraTransform != null ? cameraTransform.forward : Vector3.forward;
         Vector3 camRight   = cameraTransform != null ? cameraTransform.right   : Vector3.right;
         camForward.y = 0f; camRight.y = 0f;
@@ -97,7 +109,7 @@ public class PlayerController : MonoBehaviour
 
         controller.Move(desiredDir * speed * Time.deltaTime);
 
-        // Rotar el modelo del astronauta hacia la dirección de movimiento.
+        // Rotar el modelo hacia la dirección de movimiento
         if (desiredDir.sqrMagnitude > 0.01f)
         {
             Quaternion targetRot = Quaternion.LookRotation(desiredDir);
@@ -108,8 +120,6 @@ public class PlayerController : MonoBehaviour
 
     private void HandleJumpAndGravity()
     {
-        // Cuando estamos en el suelo, ponemos una gravedad pequeña hacia abajo
-        // para que el CharacterController se quede "pegado" al piso.
         if (isGrounded && velocity.y < 0f)
             velocity.y = groundedGravity;
 
@@ -122,8 +132,6 @@ public class PlayerController : MonoBehaviour
         controller.Move(velocity * Time.deltaTime);
     }
 
-    // Esto dibuja una esfera amarilla en el editor para que veamos
-    // dónde está el sensor de "estoy en el suelo".
     private void OnDrawGizmosSelected()
     {
         if (groundCheck == null) return;
