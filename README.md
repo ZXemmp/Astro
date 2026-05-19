@@ -10,6 +10,7 @@ nave para reestablecer los sistemas.
 - URP (Universal Render Pipeline)
 - Input System (nuevo)
 - Cinemachine 3.x
+- WebGL
 
 ## Cómo jugar
 WASD: caminar
